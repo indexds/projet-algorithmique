@@ -1,0 +1,1 @@
+void injecter(Header* header, char* KEYWORD, char* word);
