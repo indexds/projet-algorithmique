@@ -8,7 +8,7 @@ CFLAGS = -Wall -Wextra
 TARGET = parsing
 
 # Source files
-SRCS = parsing.c injection.c
+SRCS = parsing.c 
 
 # Object files
 OBJS = $(SRCS:.c=.o)
