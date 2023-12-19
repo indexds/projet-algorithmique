@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <regex.h>
 #include "./header.h"
 #include "./injection.h"
 
@@ -36,26 +35,8 @@ Header parse(FILE* file){
     };
 
     while(fscanf(file,"%s", word)){
-        if(strcmp(word, "END") == 0){
-            break;
-        }
-        else if(strcmp(word, "=") == 0){
-            continue;
-        }
-        else if(strcmp(word, "/") == 0){
-            memset(buffer, 0, 50);
-            continue;
-        }
+        
 
-        for(size_t i = 0; i < (int)sizeof(headerNames)/sizeof(headerNames[0]); i++){
-            if(strcmp(word, headerNames[i]) == 0){
-                strcpy(buffer, word);
-            };
-        };
-
-        if(buffer[0] != '\0'){
-            injecter(&header, buffer, word);
-        }
     };
 
     return header;
