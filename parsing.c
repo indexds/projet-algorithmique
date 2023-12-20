@@ -107,9 +107,7 @@ void body_parse_16(FILE* file, Header* header) {
     for (size_t x = 0; x < x_size; x++) {
         for (size_t y = 0; y < y_size; y++) {
             for (size_t z = 0; z < z_size; z++) {
-                size_t index = x + y + z;
-                size_t pixel_value = data_brute[index];
-                data[x][y][z] = pixel_value;
+                data[x][y][z] = data_brute[x*y_size*z_size + y*z_size + z];
             }
         }
     }
