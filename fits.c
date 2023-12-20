@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void read_header(FILE* file);
 
@@ -16,5 +17,10 @@ FILE* open_fits_file(void){
     FILE* file = fopen(file_path, "r");
 
     return file;
+}
 
+void parse_fits_file(const char* file_path) {
+    char command[256];
+    snprintf(command, sizeof(command), "%s %s", "./parser.sh", file_path);
+    system(command);
 }
