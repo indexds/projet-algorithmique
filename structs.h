@@ -9,7 +9,3 @@ typedef struct Header{
     float BSCALE;       //Default scaling factor.
     char DATE[100];      //UTC data that FITS file was created.
 }Header;
-
-typedef struct Image{
-    int pix;
-}Image;
