@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "./structs.h"
+#include "./header.h"
 
 const char* header_names[] = {
     "SIMPLE=",
@@ -184,7 +184,7 @@ void processHeader(FILE* file, Header* header) {
 
 // int main() {
 //     Header header;
-//     FILE* file = fopen("fit7.txt", "r");
+//     FILE* file = fopen("../fit7.txt", "r");
 //     processHeader(file, &header);
 //     printHeader(&header);
 //     fclose(file);

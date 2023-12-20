@@ -1,9 +1,14 @@
 #include <stdio.h>
-#include "./fits.c"
 #include "./header.h"
-#include "./structs.h"
+#include "./fits.h"
+#include "./convert.h"
 
 int main(void){
+    FILE* file;
+    FILE* file_1;
+    FILE* file_2;
+    int choix;
+
     while(1){
         printf("------------- UTILITAIRE FITS -------------\n"
             "(1) LIRE LE HEADER\n"
@@ -15,16 +20,18 @@ int main(void){
             "(7) CONVERTIR EN PNG\n"
             "-------------------------------------------\n"
         );
-        FILE* file;
-        FILE* file_1;
-        FILE* file_2;
-        int choix;
+
         scanf("%d", &choix);
+        getchar();
 
         switch(choix){
             case 1:
                 file = open_fits_file();
-                read_header(file);
+                Header header;
+                processHeader(file, &header);
+                printf("-------------------------------------------\n");
+                printHeader(&header);
+                printf("-------------------------------------------\n");
                 fclose(file);
                 break;
             case 2:

@@ -1,4 +1,6 @@
-#include "./header.h"
+#include <stdio.h>
+#include "./convert.h"
+
 
 void convert_csv(FILE* file){
 
