@@ -5,10 +5,10 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 
 # Target executable
-TARGET = parsing main
+TARGET = main
 
 # Source files
-SRCS = parsing.c main.c
+SRCS = main.c fits.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
