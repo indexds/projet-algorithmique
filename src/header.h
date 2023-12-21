@@ -1,3 +1,6 @@
+#ifndef HEADER_FILE
+#define HEADER_FILE
+
 typedef struct Header{
     char SIMPLE[2];
     int BITPIX;
@@ -25,3 +28,5 @@ typedef struct Header{
 
 void printHeader(Header* header);
 void processHeader(FILE* file, Header* header);
+
+#endif
