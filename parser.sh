@@ -10,7 +10,7 @@ fi
 file_path=$1
 
 # Construct the command with the provided file path
-command="od -c -A d -t x2z --endian=big -N 1000000 -v $file_path | cut -c 9- | tr -d '[:space:]'
+command="od -c -A d -t x2z --endian=big -v $file_path | cut -c 9- | tr -d '[:space:]'
 
 # Run the command
 eval $command

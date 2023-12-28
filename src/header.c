@@ -180,13 +180,3 @@ void processHeader(FILE* file, Header* header) {
     }
     free(raw_header);
 };
-
-
-// int main() {
-//     Header header;
-//     FILE* file = fopen("../fit7.txt", "r");
-//     processHeader(file, &header);
-//     printHeader(&header);
-//     fclose(file);
-//     return 0;
-// };
