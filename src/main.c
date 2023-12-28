@@ -28,7 +28,7 @@ int main(void){
 
         switch(choix){
             case 8: // TEST CASE
-                readBody(fopen("../tests/fit7.txt", "r"));
+                readBody(fopen("../tests/fit_caca.txt", "r"));
                 break;
 
             case 0:

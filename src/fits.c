@@ -5,28 +5,21 @@
 #include "./header.h"
 #include "./convert.h"
 
-FILE* readBody(FILE* file){
-    char* raw_body = (char*)malloc(300 * 1000000);
-    raw_body[0] = '\0';
-    char line[2000];
+FILE* readBody(FILE* file) {
+    // Allocate an initial buffer
+    FILE* body = fopen("./body.txt", "w");
+    char substring[4000];
+    char line[5000];
 
     while (fgets(line, sizeof(line), file) != NULL) {
-        char substring[300];
+
         if (sscanf(line, "%[^>]", substring) == 1) {
-            if (strlen(raw_body) + strlen(substring) < 300 * 1000000 - 1) {
-                strncat(raw_body, substring, strlen(substring));
-            } else {
-                // evite le buffer overflow
-                break;
-            }
+            fprintf(body, "%s", substring);
         }
     }
-    FILE* body = fopen("./body.txt", "w");
-    fprintf(body, "%s", raw_body);
 
-    free(raw_body);
     return body;
-};
+}
 
 char** bodyProcess(FILE* file, Header* header){
 
@@ -106,6 +99,7 @@ char* parse_fits_file(const char* file_path) { //Should return filename.txt
     strcat(output_file_name, ".txt");
 
     snprintf(command, sizeof(command), "od -c -A d -t x2z --endian=big -v %s | cut -c 9- | tr -d '[:space:]' > %s", file_path, output_file_name);
+
     system(command); // MODIFIER LES ARGUMENTS POUR AVOIR PAREIL QUE FIT7.TXT
 
     return output_file_name;
