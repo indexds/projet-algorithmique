@@ -1,16 +1,18 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "./header.h"
 #include "./fits.h"
 #include "./convert.h"
 
 int main(void){
-    FILE* file;
+    Header header;
     FILE* file_1;
     FILE* file_2;
     int choix;
 
     while(1){
         printf("------------- UTILITAIRE FITS -------------\n"
+            "(0) SORTIR DU PROGRAMME\n"
             "(1) LIRE LE HEADER\n"
             "(2) SOMMER DES IMAGES\n"
             "(3) SOUSTRAIRE DES IMAGES\n"
@@ -25,14 +27,20 @@ int main(void){
         getchar();
 
         switch(choix){
+            case 8: // TEST CASE
+                readBody(fopen("../tests/fit7.txt", "r"));
+                break;
+
+            case 0:
+                exit(EXIT_SUCCESS);
             case 1:
-                file = open_fits_file();
-                Header header;
-                processHeader(file, &header);
+                file_1 = open_fits_file();
+
+                processHeader(file_1, &header);
                 printf("-------------------------------------------\n");
                 printHeader(&header);
                 printf("-------------------------------------------\n");
-                fclose(file);
+                fclose(file_1);
                 break;
             case 2:
                 file_1 = open_fits_file();
@@ -63,20 +71,20 @@ int main(void){
                 fclose(file_2);
                 break;
             case 6:
-                file = open_fits_file();
-                convert_csv(file);
-                fclose(file);
+                file_1 = open_fits_file();
+                convert_csv(file_1);
+                fclose(file_1);
                 break;
             case 7:
-                file = open_fits_file();
-                convert_png(file);
-                fclose(file);
+                file_1 = open_fits_file();
+                convert_png(file_1);
+                fclose(file_1);
                 break;
 
             default:
                 printf("Nombre Invalide.\n");
                 continue;
-        }
-    }
+        };
+    };
     return 0;
-}
+};

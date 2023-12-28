@@ -24,6 +24,7 @@ FILE* readBody(FILE* file){
     FILE* body = fopen("./body.txt", "w");
     fprintf(body, "%s", raw_body);
 
+    free(raw_body);
     return body;
 };
 
@@ -78,49 +79,35 @@ void div_fits_files(FILE* file1, FILE* file2) {
     (void)file2;
 };
 
-
-
 FILE* open_fits_file(void){
     char file_path[150];
-    printf("Rentrer le PATH du fichier: ");
-    scanf("%s", file_path);
-    FILE* file = fopen(file_path, "r");
+    FILE* file = NULL;
 
+    while(file == NULL){
+        printf("Rentrer le PATH du fichier: ");
+        scanf("%s", file_path);
+        file = fopen(file_path, "r");
+
+        if(file == NULL){
+            printf("File does not exist, please try again.\n");
+        };
+
+    };
     return file;
 };
 
-FILE* create_fits_file(void){
-    char file_path[150];
-    printf("Rentrer le PATH du fichier: ");
-    scanf("%s", file_path);
-    FILE* file = fopen(file_path, "w");
-
-    return file;
-};
-
-void parse_fits_file(const char* file_path) {
+char* parse_fits_file(const char* file_path) { //Should return filename.txt
     char command[256];
-    snprintf(command, sizeof(command), "%s %s", "./parser.sh", file_path);
-    system(command);
-};
+    char* output_file_name = (char*)malloc(sizeof(char)*125);
 
+    char* last_slash = strrchr(file_path, '/');
+    char* last_dot = strrchr(file_path, '.');
+    strncpy(output_file_name, last_slash + 1, last_dot - last_slash - 1);
+    strcat(output_file_name, ".txt");
 
-int main() {
-    Header header;
-    FILE* file = fopen("../fit7.txt", "r");
-    processHeader(file, &header);
+    snprintf(command, sizeof(command), "od -c -A d -t x2z --endian=big -v %s | cut -c 9- | tr -d '[:space:]' > %s", file_path, output_file_name);
+    system(command); // MODIFIER LES ARGUMENTS POUR AVOIR PAREIL QUE FIT7.TXT
 
-    char** data = bodyProcess(readBody(file), &header);
+    return output_file_name;
 
-    // for(int i = 0; i< header.NAXIS1*3; i++){
-    //     for(int j = 0; j<header.NAXIS2*2; j++){
-    //         printf("%s", &data[i][j]);
-    //     };
-    // };
-
-    convert_fits(create_fits_file(), &header, data);
-
-    freeBody(data, &header);
-    fclose(file);
-    return 0;
 };

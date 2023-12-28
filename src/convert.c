@@ -63,10 +63,3 @@ void convert_png(FILE* file){
     (void)file;
 
 };
-//  int main(void){
-//     FILE* file =fopen("../lights/r_lights_00001.fit", "r");
-//     convert_csv(file);
-//     fclose(file);
-//     return 0;
-
-//  };
