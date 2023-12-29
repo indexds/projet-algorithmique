@@ -5,9 +5,16 @@
 #include "./header.h"
 #include "./convert.h"
 
-FILE* readBody(FILE* file) {
-    // Allocate an initial buffer
-    FILE* body = fopen("./body.txt", "w");
+FILE* readBody(char* file_path) {
+    char* output_file_name = (char*)malloc(sizeof(char)*125);
+
+    char* last_slash = strrchr(file_path, '/');
+    char* last_dot = strrchr(file_path, '.');
+    strncpy(output_file_name, last_slash + 1, last_dot - last_slash - 1);
+    strcat(output_file_name, "_body.txt");
+
+    FILE* file = fopen(file_path, "r");
+    FILE* body = fopen(output_file_name, "w");
     char substring[4000];
     char line[5000];
 
@@ -15,16 +22,15 @@ FILE* readBody(FILE* file) {
 
         if (sscanf(line, "%[^>]", substring) == 1) {
             fprintf(body, "%s", substring);
-        }
-    }
-
+        };
+    };
+    fclose(file);
     return body;
-}
+};
 
-char** bodyProcess(FILE* file, Header* header){
+char** bodyProcess(char* file_path, Header* header){
 
-    fseek(file, 0, SEEK_SET);
-    FILE* body_stream = readBody(file);
+    FILE* body_stream = readBody(file_path);
 
     //Allocation Memory
     char** data = (char**)malloc(sizeof(char*)*header->NAXIS1*header->NAXIS3);
@@ -98,7 +104,7 @@ char* parse_fits_file(const char* file_path) { //Should return filename.txt
     strncpy(output_file_name, last_slash + 1, last_dot - last_slash - 1);
     strcat(output_file_name, ".txt");
 
-    snprintf(command, sizeof(command), "od -c -A d -t x2z --endian=big -v %s | cut -c 9- | tr -d '[:space:]' > %s", file_path, output_file_name);
+    snprintf(command, sizeof(command), "od -c -A d -t x2z --endian=big -w20 -v %s | cut -c 9- | tr -d '[:space:]' > %s", file_path, output_file_name);
 
     system(command); // MODIFIER LES ARGUMENTS POUR AVOIR PAREIL QUE FIT7.TXT
 
