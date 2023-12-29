@@ -29,7 +29,7 @@ int main(void){
         switch(choix){
             case 8: // TEST CASE
                 //file_1 = readBody(parse_fits_file("../lights/r_lights_00001.fit"));
-                file_1 = readBody("r_lights_00001.txt");
+                file_1 = readBody("./r_lights_00001.txt");
                 fclose(file_1);
                 break;
 

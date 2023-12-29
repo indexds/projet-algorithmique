@@ -6,10 +6,12 @@
 #include "./convert.h"
 
 FILE* readBody(char* file_path) {
-    char* output_file_name = (char*)malloc(sizeof(char)*125);
+
+    char* output_file_name = (char*)malloc(sizeof(char)*250);
 
     char* last_slash = strrchr(file_path, '/');
     char* last_dot = strrchr(file_path, '.');
+
     strncpy(output_file_name, last_slash + 1, last_dot - last_slash - 1);
     strcat(output_file_name, "_body.txt");
 
@@ -25,6 +27,7 @@ FILE* readBody(char* file_path) {
         };
     };
     fclose(file);
+    free(output_file_name);
     return body;
 };
 
