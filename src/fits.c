@@ -104,7 +104,7 @@ char* parse_fits_file(const char* file_path) { //Should return filename.txt
     strncpy(output_file_name, last_slash + 1, last_dot - last_slash - 1);
     strcat(output_file_name, ".txt");
 
-    snprintf(command, sizeof(command), "od -c -A d -t x2z --endian=big -w20 -v %s | cut -c 9- | tr -d '[:space:]' > %s", file_path, output_file_name);
+    snprintf(command, sizeof(command), "od --endian=big -w20 -A d -t x2z -v %s | cut -c 9- | tr -d ' ' > %s", file_path, output_file_name);
 
     system(command); // MODIFIER LES ARGUMENTS POUR AVOIR PAREIL QUE FIT7.TXT
 
