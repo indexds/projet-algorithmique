@@ -12,7 +12,13 @@ FILE* readBody(char* file_path) {
     char* last_slash = strrchr(file_path, '/');
     char* last_dot = strrchr(file_path, '.');
 
-    strncpy(output_file_name, last_slash + 1, last_dot - last_slash - 1);
+    if(last_slash == NULL){ //Evite l'edge case où le path du fichier est de la forme "file.ext"
+        strncpy(output_file_name, file_path, last_dot - file_path);
+    }
+    else{
+        strncpy(output_file_name, last_slash + 1, last_dot - last_slash - 1);
+    };
+
     strcat(output_file_name, "_body.txt");
 
     FILE* file = fopen(file_path, "r");
@@ -23,7 +29,7 @@ FILE* readBody(char* file_path) {
     while (fgets(line, sizeof(line), file) != NULL) {
 
         if (sscanf(line, "%[^>]", substring) == 1) {
-            fprintf(body, "%s", substring);
+            fwrite(substring, sizeof(char), strlen(substring), body);
         };
     };
     fclose(file);
@@ -31,34 +37,20 @@ FILE* readBody(char* file_path) {
     return body;
 };
 
-char** bodyProcess(char* file_path, Header* header){
-
-    FILE* body_stream = readBody(file_path);
+char* bodyProcess(FILE* body_stream, Header* header){
 
     //Allocation Memory
-    char** data = (char**)malloc(sizeof(char*)*header->NAXIS1*header->NAXIS3);
+    char* data = (char*)malloc(sizeof(char)*header->NAXIS1*header->NAXIS2*header->NAXIS3*header->BITPIX/8);
 
-    for(int i = 0; i<header->NAXIS1*header->NAXIS3; i++){
-        data[i] = (char*)malloc(sizeof(char)*header->NAXIS2*2);
-    };
     //Main program
     fseek(body_stream, BLOCK_SIZE*2, SEEK_SET);
 
     //Fill data with body_stream
-    for(int i = 0; i < header->NAXIS1*3; i++){
-        for(int j = 0; j < header->NAXIS2*2; j++){
-            fread(&data[i][j], 2, 1, body_stream);
-        };
+    for(int i = 0; i < header->NAXIS1*header->NAXIS2*header->NAXIS3*header->BITPIX/8; i++){
+        fread(&data[i], header->BITPIX/8, 1, body_stream);
     };
 
     return data;
-};
-
-void freeBody(char** data, Header* header){
-    for(int i = 0; i<header->NAXIS1*header->NAXIS3; i++){
-        free(data[i]);
-    };
-    free(data);
 };
 
 void sum_fits_files(FILE* file1, FILE* file2) {

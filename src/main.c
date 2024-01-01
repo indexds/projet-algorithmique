@@ -28,8 +28,16 @@ int main(void){
 
         switch(choix){
             case 8: // TEST CASE
-                //file_1 = readBody(parse_fits_file("../lights/r_lights_00001.fit"));
-                file_1 = readBody("./r_lights_00001.txt");
+                file_2 = fopen("r_lights_00004.txt", "r");
+                processHeader(file_2, &header);
+                fclose(file_2);
+
+                file_1 = fopen("r_lights_00004_body.txt", "r");
+
+                char* data = bodyProcess(file_1, &header);
+                convert_fits("test.fit", &header, data);
+
+                free(data);
                 fclose(file_1);
                 break;
 
