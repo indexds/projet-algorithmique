@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdint.h>
 
 int hexCharToDecimal(char hex_digit) {
     int decimal_value;
@@ -24,68 +25,55 @@ int hexToDecimal(const char *hex_string) {
     int power = strlen(hex_string)-1;
 
     for (size_t i = 0; i < strlen(hex_string); ++i) {
-        decimal += hexCharToDecimal(hex_string[i]) * pow(16, power);
+        decimal += hexCharToDecimal(hex_string[i]) * (int)pow(16, power);
         power--;
     };
     return decimal;
 };
 
-int decimalToBinary(int decimal) {
+uint32_t decimalToBinary(uint32_t decimal) {
     if (decimal == 0) {
         return 0;
-    }
-
-    int binary = 0;
-    int placeValue = 1;
+    };
+    uint32_t binary = 0;
+    uint32_t placeValue = 1;
 
     while (decimal > 0) {
-        // Extract the least significant bit and add it to the binary representation
         binary += (decimal & 1) * placeValue;
-
-        // Right shift the decimal number to move to the next bit
         decimal >>= 1;
-
-        // Multiply the place value by 10 for the binary representation
         placeValue *= 10;
     };
-
     return binary;
 };
 
-
-char* be_to_le(const char *hex_string) {
-    if (strlen(hex_string) != 4) {
-        fprintf(stderr, "Input string must be exactly 4 characters long\n");
-        exit(EXIT_FAILURE);
-    };
-
-    // Convert hex string to integer
-    unsigned int big_endian_value;
-    sscanf(hex_string, "%x", &big_endian_value);
-
-    // Convert integer to little endian format
-    unsigned int little_endian_value = ((big_endian_value & 0xFF) << 8) | ((big_endian_value & 0xFF00) >> 8);
-
-    // Allocate memory for the result string
-    char *result_hex_string = (char*)malloc(5);
-
-    // Convert little endian value to hexadecimal string
-    sprintf(result_hex_string, "%04X", little_endian_value);
-
-    return result_hex_string;
-};
-
-
-int le_to_be(int le_binary) {
-    int be_binary = 0;
+uint32_t be_to_le(uint32_t be_binary) {
+    uint32_t le_binary = 0;
 
     // Calculate the size of an integer in bytes
-    int size = sizeof(int);
+    uint32_t size = sizeof(uint32_t);
+
+    // Loop through each byte of the big-endian binary number
+    for (uint32_t i = 0; i < size; ++i) {
+        // Extract the ith byte from the big-endian binary
+        uint32_t byte = (be_binary >> ((size - 1 - i) * 8)) & 0xFF;
+
+        // Place the byte in the corresponding position in the little-endian binary
+        le_binary |= byte << (i * 8);
+    }
+
+    return le_binary;
+}
+
+uint32_t le_to_be(uint32_t le_binary) {
+    uint32_t be_binary = 0;
+
+    // Calculate the size of an integer in bytes
+    uint32_t size = sizeof(uint32_t);
 
     // Loop through each byte of the little-endian binary number
-    for (int i = 0; i < size; ++i) {
+    for(uint32_t i = 0; i < size; ++i) {
         // Extract the ith byte from the little-endian binary
-        int byte = (le_binary >> (i * 8)) & 0xFF;
+        uint32_t byte = (le_binary >> (i * 8)) & 0xFF;
 
         // Place the byte in the corresponding position in the big-endian binary
         be_binary |= byte << ((size - 1 - i) * 8);
@@ -95,6 +83,6 @@ int le_to_be(int le_binary) {
 };
 
 
-int binaryConvert(char* hex_string){
-    return decimalToBinary(hexToDecimal(be_to_le(hex_string)));
+uint32_t binaryConvert(char* hex_string){
+    return be_to_le(decimalToBinary(hexToDecimal(hex_string)));
 };

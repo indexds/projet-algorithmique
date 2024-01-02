@@ -43,7 +43,7 @@ char* bodyProcess(FILE* body_stream, Header* header){
 
     //Main program
 
-    fseek(body_stream, 0, SEEK_SET);//Start at 0 for now, should start after header normally
+    fseek(body_stream, BLOCK_SIZE*2, SEEK_SET);//Start at 0 for now, should start after header normally
 
     //Fill data with body_stream
     for(int i = 0; i < header->NAXIS1*header->NAXIS2*header->NAXIS3*header->BITPIX/8; i++){

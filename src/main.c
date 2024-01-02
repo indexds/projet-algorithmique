@@ -28,6 +28,7 @@ int main(void){
 
         switch(choix){
             case 8: // TEST CASE
+                //file_2 = fopen(parse_fits_file("../lights/r_lights_00004.fit"), "r");
                 file_2 = fopen("r_lights_00004.txt", "r");
                 processHeader(file_2, &header);
 
