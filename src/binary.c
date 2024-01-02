@@ -30,36 +30,34 @@ int hexToDecimal(const char *hex_string) {
     return decimal;
 };
 
-char* decimalToBinary(int decimal) {
-    // Determine the number of bits needed
-    int numBits = 0;
-    int temp = decimal;
-    while (temp > 0) {
-        temp /= 2;
-        numBits++;
+int decimalToBinary(int decimal) {
+    if (decimal == 0) {
+        return 0;
     }
 
-    // Allocate memory for the binary representation (+1 for null terminator)
-    char* binary = (char*)malloc((numBits + 1) * sizeof(char));
+    int binary = 0;
+    int placeValue = 1;
 
-    // Convert decimal to binary
-    for (int i = numBits - 1; i >= 0; i--) {
-        binary[i] = (decimal % 2) + '0';
-        decimal /= 2;
-    }
+    while (decimal > 0) {
+        // Extract the least significant bit and add it to the binary representation
+        binary += (decimal & 1) * placeValue;
 
-    // Add null terminator
-    binary[numBits] = '\0';
+        // Right shift the decimal number to move to the next bit
+        decimal >>= 1;
+
+        // Multiply the place value by 10 for the binary representation
+        placeValue *= 10;
+    };
 
     return binary;
-}
+};
 
 
-char* big_endian_to_little_endian(const char *hex_string) {
+char* be_to_le(const char *hex_string) {
     if (strlen(hex_string) != 4) {
         fprintf(stderr, "Input string must be exactly 4 characters long\n");
         exit(EXIT_FAILURE);
-    }
+    };
 
     // Convert hex string to integer
     unsigned int big_endian_value;
@@ -77,6 +75,26 @@ char* big_endian_to_little_endian(const char *hex_string) {
     return result_hex_string;
 };
 
-char* binaryConvert(char* hex_string){
-    return decimalToBinary(hexToDecimal(big_endian_to_little_endian(hex_string)));
+
+int le_to_be(int le_binary) {
+    int be_binary = 0;
+
+    // Calculate the size of an integer in bytes
+    int size = sizeof(int);
+
+    // Loop through each byte of the little-endian binary number
+    for (int i = 0; i < size; ++i) {
+        // Extract the ith byte from the little-endian binary
+        int byte = (le_binary >> (i * 8)) & 0xFF;
+
+        // Place the byte in the corresponding position in the big-endian binary
+        be_binary |= byte << ((size - 1 - i) * 8);
+    };
+
+    return be_binary;
+};
+
+
+int binaryConvert(char* hex_string){
+    return decimalToBinary(hexToDecimal(be_to_le(hex_string)));
 };

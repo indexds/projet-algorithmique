@@ -48,6 +48,7 @@ char* bodyProcess(FILE* body_stream, Header* header){
     //Fill data with body_stream
     for(int i = 0; i < header->NAXIS1*header->NAXIS2*header->NAXIS3*header->BITPIX/8; i++){
         fread(&data[i], header->BITPIX/8, 1, body_stream);
+
     };
 
     return data;
