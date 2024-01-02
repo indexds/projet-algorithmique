@@ -30,21 +30,20 @@ int main(void){
             case 8: // TEST CASE
                 file_2 = fopen("r_lights_00004.txt", "r");
                 processHeader(file_2, &header);
-                fclose(file_2);
 
+                readBody("r_lights_00004.txt");
                 file_1 = fopen("r_lights_00004_body.txt", "r");
-
                 char* data = bodyProcess(file_1, &header);
                 convert_fits("test.fit", &header, data);
-
                 free(data);
+                fclose(file_2);
                 fclose(file_1);
                 break;
 
             case 0:
                 exit(EXIT_SUCCESS);
             case 1:
-                file_1 = open_fits_file();
+                file_1 = fopen("r_lights_00004.txt", "r");
 
                 processHeader(file_1, &header);
                 printf("-------------------------------------------\n");

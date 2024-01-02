@@ -5,9 +5,9 @@
 #include "./header.h"
 #include "./convert.h"
 
-FILE* readBody(char* file_path) {
+void readBody(char* file_path) {
 
-    char* output_file_name = (char*)malloc(sizeof(char)*250);
+    char* output_file_name = (char*)malloc(sizeof(char)*256);
 
     char* last_slash = strrchr(file_path, '/');
     char* last_dot = strrchr(file_path, '.');
@@ -23,18 +23,17 @@ FILE* readBody(char* file_path) {
 
     FILE* file = fopen(file_path, "r");
     FILE* body = fopen(output_file_name, "w");
-    char substring[4000];
-    char line[5000];
+    char substring[1024];
+    char line[2048];
 
     while (fgets(line, sizeof(line), file) != NULL) {
-
         if (sscanf(line, "%[^>]", substring) == 1) {
             fwrite(substring, sizeof(char), strlen(substring), body);
         };
     };
     fclose(file);
+    fclose(body);
     free(output_file_name);
-    return body;
 };
 
 char* bodyProcess(FILE* body_stream, Header* header){
@@ -43,7 +42,8 @@ char* bodyProcess(FILE* body_stream, Header* header){
     char* data = (char*)malloc(sizeof(char)*header->NAXIS1*header->NAXIS2*header->NAXIS3*header->BITPIX/8);
 
     //Main program
-    fseek(body_stream, BLOCK_SIZE*2, SEEK_SET);
+
+    fseek(body_stream, 0, SEEK_SET);//Start at 0 for now, should start after header normally
 
     //Fill data with body_stream
     for(int i = 0; i < header->NAXIS1*header->NAXIS2*header->NAXIS3*header->BITPIX/8; i++){
@@ -81,7 +81,7 @@ FILE* open_fits_file(void){
     while(file == NULL){
         printf("Rentrer le PATH du fichier: ");
         scanf("%s", file_path);
-        file = fopen(file_path, "r");
+        file = fopen(parse_fits_file(file_path), "r");
 
         if(file == NULL){
             printf("File does not exist, please try again.\n");
@@ -102,7 +102,7 @@ char* parse_fits_file(const char* file_path) { //Should return filename.txt
 
     snprintf(command, sizeof(command), "od --endian=big -w20 -A d -t x2z -v %s | cut -c 9- | tr -d ' ' > %s", file_path, output_file_name);
 
-    system(command); // MODIFIER LES ARGUMENTS POUR AVOIR PAREIL QUE FIT7.TXT
+    system(command);
 
     return output_file_name;
 

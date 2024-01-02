@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "./header.h"
+#include "./fits.h"
 
 const char* header_names[] = {
     "SIMPLE=",
@@ -146,37 +147,33 @@ void injecter(Header* header, const char* KEYWORD, const char* value) {
 
 
 void processHeader(FILE* file, Header* header) {
-    char* raw_header = (char*)malloc(3000);
+    char* raw_header = (char*)malloc(2*BLOCK_SIZE);
     raw_header[0] = '\0';
     char line[500];
+    char substring[300];
+    char value[300];
 
     while (fgets(line, sizeof(line), file) != NULL) {
-        char substring[300];
         if (sscanf(line, "%*[^>]>%[^<]", substring) == 1) {
-            if (strlen(raw_header) + strlen(substring) < 2999) {
-                strncat(raw_header, substring, strlen(substring));
-            } else {
-                // evite le buffer overflow
+
+            strncat(raw_header, substring, strlen(substring));
+
+            if(strcmp(substring, "END") == 0){
                 break;
             }
-        }
-    } // actuellement header contient tous les strings concaténés de chaque ligne entre > et <
+            };
+    };
 
+    // actuellement header contient tous les strings concaténés de chaque ligne entre > et <
     // Maintenant on regarde pour chaque element de header_names ce qu'il y a entre "=" et "/" => la valeur
     for (size_t i = 0; i < sizeof(header_names) / sizeof(header_names[0]); ++i) {
         char* found_adr = strstr(raw_header, header_names[i]); //renvoie l'adresse de la premiere instance de header_names[i] dans header
-
         char* value_start = found_adr + strlen(header_names[i]); // début de la valeur => après le =
         char* value_end = strchr(value_start, '/'); //on cherche l'adresse du premier / à partir du =
-
         size_t value_length = value_end - value_start;
-        char value[300];
         strncpy(value, value_start, value_length); // on met dans value le str du = jusqu'au /
-        value[value_length] = '\0'; //magie noire, ça marche pas sans
-
+        value[value_length] = '\0'; //on rajoute le null terminator à la fin de value
         injecter(header, header_names[i], value);
-
-
-    }
+    };
     free(raw_header);
 };
