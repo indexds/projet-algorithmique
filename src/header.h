@@ -2,28 +2,28 @@
 #define HEADER_FILE
 
 typedef struct Header{
-    char SIMPLE[2];
+    char SIMPLE[256];
     int BITPIX;
     int NAXIS;
     int NAXIS1;
     int NAXIS2;
     int NAXIS3;
-    char EXTEND[2];
-    double BZERO;
-    double BSCALE;
-    char INSTRUME[50];
-    char DATE[50];
-    char DATE_OBS[50];
-    double XPIXSZ;
-    double YPIXSZ;
+    char EXTEND[256];
+    float BZERO;
+    float BSCALE;
+    char INSTRUME[256];
+    char DATE[256];
+    char DATE_OBS[256];
+    float XPIXSZ;
+    float YPIXSZ;
     int XBINNING;
     int YBINNING;
-    double CCD_TEMP;
-    double EXPTIME;
-    char BAYERPAT[50];
+    float CCD_TEMP;
+    float EXPTIME;
+    char BAYERPAT[256];
     int XBAYROFF;
     int YBAYROFF;
-    char PROGRAM[50];
+    char PROGRAM[256];
 }Header;
 
 void printHeader(Header* header);

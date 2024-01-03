@@ -8,7 +8,7 @@ CFLAGS = -Wall -Wextra
 TARGET = main
 
 # Source files
-SRCS = header.c fits.c convert.c main.c binary.c
+SRCS = header.c fits.c main.c binary.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)

@@ -81,8 +81,3 @@ uint32_t le_to_be(uint32_t le_binary) {
 
     return be_binary;
 };
-
-
-uint32_t binaryConvert(char* hex_string){
-    return be_to_le(decimalToBinary(hexToDecimal(hex_string)));
-};

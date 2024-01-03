@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include "./header.h"
 #include "./fits.h"
-#include "./convert.h"
 
 int main(void){
-    Header header;
+    //Header header;
     FILE* file_1;
     FILE* file_2;
     int choix;
@@ -25,72 +24,43 @@ int main(void){
 
         scanf("%d", &choix);
         getchar();
-
+        (void)file_1;
         switch(choix){
             case 8: // TEST CASE
-                //file_2 = fopen(parse_fits_file("../lights/r_lights_00004.fit"), "r");
-                file_2 = fopen("r_lights_00004.txt", "r");
-                processHeader(file_2, &header);
+                file_1 = fopen("../lights/r_lights_00004.fit", "rb");
+                file_2 = fopen("../lights/r_lights_00005.fit", "rb");
+                FILE* output = fopen("test.fit", "wb");
 
-                readBody("r_lights_00004.txt");
-                file_1 = fopen("r_lights_00004_body.txt", "r");
-                char* data = bodyProcess(file_1, &header);
-                convert_fits("test.fit", &header, data);
-                free(data);
-                fclose(file_2);
+                sum_fits_files(file_1, file_2, output);
+
                 fclose(file_1);
+                fclose(file_2);
+                fclose(output);
                 break;
 
             case 0:
                 exit(EXIT_SUCCESS);
             case 1:
-                file_1 = fopen("r_lights_00004.txt", "r");
-
-                processHeader(file_1, &header);
-                printf("-------------------------------------------\n");
-                printHeader(&header);
-                printf("-------------------------------------------\n");
-                fclose(file_1);
+                printf("Not Implemented.");
                 break;
             case 2:
-                file_1 = open_fits_file();
-                file_2 = open_fits_file();
-                sum_fits_files(file_1, file_2);
-                fclose(file_1);
-                fclose(file_2);
+                printf("Not Implemented.");
                 break;
             case 3:
-                file_1 = open_fits_file();
-                file_2 = open_fits_file();
-                sub_fits_files(file_1, file_2);
-                fclose(file_1);
-                fclose(file_2);
+                printf("Not Implemented.");
                 break;
             case 4:
-                file_1 = open_fits_file();
-                file_2 = open_fits_file();
-                avg_fits_files(file_1, file_2);
-                fclose(file_1);
-                fclose(file_2);
+                printf("Not Implemented.");
                 break;
             case 5:
-                file_1 = open_fits_file();
-                file_2 = open_fits_file();
-                div_fits_files(file_1, file_2);
-                fclose(file_1);
-                fclose(file_2);
+                printf("Not Implemented.");
                 break;
             case 6:
-                file_1 = open_fits_file();
-                convert_csv(file_1);
-                fclose(file_1);
+                printf("Not Implemented.");
                 break;
             case 7:
-                file_1 = open_fits_file();
-                convert_png(file_1);
-                fclose(file_1);
+                printf("Not Implemented.");
                 break;
-
             default:
                 printf("Nombre Invalide.\n");
                 continue;
