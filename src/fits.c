@@ -23,19 +23,17 @@ void sum_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
         printf("Image Formats are different, exiting.");
         return;
     };
-
-
-    fprintFitsHeader(file1, &header1);
-
-    fseek(file1, BLOCK_SIZE*2, SEEK_SET);
-    fseek(file2, BLOCK_SIZE*2, SEEK_SET);
+    fprintFitsHeader(output_stream, &header1);
+    printHeader(&header1);
+    fseek(file1, BLOCK_SIZE, SEEK_SET);
+    fseek(file2, BLOCK_SIZE, SEEK_SET);
+    fseek(output_stream, BLOCK_SIZE, SEEK_SET);
 
     char buffer1[2];
     char buffer2[2];
 
 
-    while(fread(buffer1, 1, 2, file1) != 0 && fread(buffer2, 1, 2, file2) != 0){
-
+     while(fread(buffer1, 1, 2, file1) != 0 && fread(buffer2, 1, 2, file2) != 0){
         fwrite(buffer1, 2, 1, output_stream);
     };
 };

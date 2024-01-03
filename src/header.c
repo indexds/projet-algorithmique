@@ -32,13 +32,13 @@ const char* header_names[] = {
 };
 
 void fprintFitsHeader(FILE* fits_file, Header* header){
-    //Fill beginning of file with spaces
-    fseek(fits_file, 0, SEEK_SET);
-    char spaces[2 * BLOCK_SIZE];
-    for (int i = 0; i < 2 * BLOCK_SIZE; i++) {
-        spaces[i] = ' ';
-    };
-    fwrite(spaces, sizeof(char), 2 * BLOCK_SIZE, fits_file);
+    // Fill beginning of file with spaces
+     fseek(fits_file, 0, SEEK_SET);
+     char spaces[BLOCK_SIZE];
+     for (int i = 0; i < BLOCK_SIZE; i++) {
+         spaces[i] = ' ';
+     };
+    fwrite(spaces, sizeof(char), BLOCK_SIZE, fits_file);
     fseek(fits_file, 0, SEEK_SET);
 
     fprintf(fits_file, "SIMPLE   =                    %s / conforms to FITS standard ",                    header->SIMPLE);
@@ -48,17 +48,17 @@ void fprintFitsHeader(FILE* fits_file, Header* header){
     fprintf(fits_file, "NAXIS2   =                    %d / size of dimension 2 ",                          header->NAXIS2);
     fprintf(fits_file, "NAXIS3   =                    %d / size of dimension 3 ",                          header->NAXIS3);
     fprintf(fits_file, "EXTEND   =                    %s / FITS dataset may contain extensions ",          header->EXTEND);
-    fprintf(fits_file, "BZERO    =                    %f / offset data range to that of unsigned short ",  header->BZERO);
-    fprintf(fits_file, "BSCALE   =                    %f / default scaling factor ",                       header->BSCALE);
+    fprintf(fits_file, "BZERO    =                    %.2f / offset data range to that of unsigned short ",  header->BZERO);
+    fprintf(fits_file, "BSCALE   =                    %.2f / default scaling factor ",                       header->BSCALE);
     fprintf(fits_file, "INSTRUME =                    %s / instrument name ",                              header->INSTRUME);
     fprintf(fits_file, "DATE     =                    %s / UTC date that FITS file was created ",          header->DATE);
     fprintf(fits_file, "DATE-OBS =                    %s / YYYY-MM-DDThh:mm:ss observation start ",        header->DATE_OBS);
-    fprintf(fits_file, "XPIXSZ   =                    %f / X pixel size microns ",                         header->XPIXSZ);
-    fprintf(fits_file, "YPIXSZ   =                    %f / Y pixel size microns ",                         header->YPIXSZ);
+    fprintf(fits_file, "XPIXSZ   =                    %.2f / X pixel size microns ",                         header->XPIXSZ);
+    fprintf(fits_file, "YPIXSZ   =                    %.2f / Y pixel size microns ",                         header->YPIXSZ);
     fprintf(fits_file, "XBINNING =                    %d / Camera binning mode ",                          header->XBINNING);
     fprintf(fits_file, "YBINNING =                    %d / Camera binning mode ",                          header->YBINNING);
-    fprintf(fits_file, "CCD-TEMP =                    %f / CCD temp in C ",                                header->CCD_TEMP);
-    fprintf(fits_file, "EXPTIME  =                    %f / Exposure time [s] ",                            header->EXPTIME);
+    fprintf(fits_file, "CCD-TEMP =                    %.2f / CCD temp in C ",                                header->CCD_TEMP);
+    fprintf(fits_file, "EXPTIME  =                    %.2f / Exposure time [s] ",                            header->EXPTIME);
     fprintf(fits_file, "BAYERPAT =                    %s / Bayer color pattern ",                          header->BAYERPAT);
     fprintf(fits_file, "XBAYROFF =                    %d / X offset of Bayer array ",                      header->XBAYROFF);
     fprintf(fits_file, "YBAYROFF =                    %d / Y offset of Bayer array ",                      header->YBAYROFF);
@@ -74,17 +74,17 @@ void printHeader(Header* header) {
     printf("NAXIS2  :    %d\n",      header->     NAXIS2  );
     printf("NAXIS3  :    %d\n",      header->     NAXIS3  );
     printf("EXTEND  :    %s\n",      header->     EXTEND  );
-    printf("BZERO   :    %lf\n",     header->     BZERO   );
-    printf("BSCALE  :    %lf\n",     header->     BSCALE  );
+    printf("BZERO   :    %.2f\n",     header->     BZERO   );
+    printf("BSCALE  :    %.2f\n",     header->     BSCALE  );
     printf("INSTRUME:    %s\n",      header->     INSTRUME);
     printf("DATE    :    %s\n",      header->     DATE    );
     printf("DATE-OBS:    %s\n",      header->     DATE_OBS);
-    printf("XPIXSZ  :    %lf\n",     header->     XPIXSZ  );
-    printf("YPIXSZ  :    %lf\n",     header->     YPIXSZ  );
+    printf("XPIXSZ  :    %.2f\n",     header->     XPIXSZ  );
+    printf("YPIXSZ  :    %.2f\n",     header->     YPIXSZ  );
     printf("XBINNING:    %d\n",      header->     XBINNING);
     printf("YBINNING:    %d\n",      header->     YBINNING);
-    printf("CCD-TEMP:    %lf\n",     header->     CCD_TEMP);
-    printf("EXPTIME :    %lf\n",     header->     EXPTIME );
+    printf("CCD-TEMP:    %.2f\n",     header->     CCD_TEMP);
+    printf("EXPTIME :    %.2f\n",     header->     EXPTIME );
     printf("BAYERPAT:    %s\n",      header->     BAYERPAT);
     printf("XBAYROFF:    %d\n",      header->     XBAYROFF);
     printf("YBAYROFF:    %d\n",      header->     YBAYROFF);
@@ -187,6 +187,15 @@ void processHeader(FILE* file, Header* header) {
     char* raw_header = (char*)malloc(2*BLOCK_SIZE);
     memset(raw_header, '\0', BLOCK_SIZE*2);
     char value[128];
+
+
+    memset(header->SIMPLE, '\0', 128);
+    memset(header->EXTEND, '\0', 128);
+    memset(header->INSTRUME, '\0', 128);
+    memset(header->DATE, '\0', 128);
+    memset(header->DATE_OBS, '\0', 128);
+    memset(header->BAYERPAT, '\0', 128);
+    memset(header->PROGRAM, '\0', 128);
 
     fread(raw_header, BLOCK_SIZE-750, 1, file);
     // Maintenant on regarde pour chaque element de header_names ce qu'il y a entre "=" et "/" => la valeur
