@@ -29,7 +29,7 @@ int main(void){
             case 8: // TEST CASE
                 file_1 = fopen("../lights/r_lights_00004.fit", "rb");
                 file_2 = fopen("../lights/r_lights_00005.fit", "rb");
-                FILE* output = fopen("test.fit", "wb");
+                FILE* output = fopen("../lights/output.fit", "wb");
 
                 sum_fits_files(file_1, file_2, output);
 

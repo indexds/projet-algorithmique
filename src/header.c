@@ -38,63 +38,63 @@ void fprintFitsHeader(FILE* fits_file, Header* header){
      for (int i = 0; i < BLOCK_SIZE; i++) {
          spaces[i] = ' ';
      };
-    fwrite(spaces, sizeof(char), BLOCK_SIZE, fits_file);
+    fwrite(spaces, BLOCK_SIZE, 1, fits_file);
     fseek(fits_file, 0, SEEK_SET);
 
-    fprintf(fits_file, "SIMPLE   =                    %s / conforms to FITS standard ",                    header->SIMPLE);
-    fprintf(fits_file, "BITPIX   =                    %d / array data type ",                              header->BITPIX);
-    fprintf(fits_file, "NAXIS    =                    %d / number of array dimensions ",                   header->NAXIS);
-    fprintf(fits_file, "NAXIS1   =                    %d / size of dimension 1 ",                          header->NAXIS1);
-    fprintf(fits_file, "NAXIS2   =                    %d / size of dimension 2 ",                          header->NAXIS2);
-    fprintf(fits_file, "NAXIS3   =                    %d / size of dimension 3 ",                          header->NAXIS3);
-    fprintf(fits_file, "EXTEND   =                    %s / FITS dataset may contain extensions ",          header->EXTEND);
-    fprintf(fits_file, "BZERO    =                    %.2f / offset data range to that of unsigned short ",  header->BZERO);
-    fprintf(fits_file, "BSCALE   =                    %.2f / default scaling factor ",                       header->BSCALE);
-    fprintf(fits_file, "INSTRUME =                    %s / instrument name ",                              header->INSTRUME);
-    fprintf(fits_file, "DATE     =                    %s / UTC date that FITS file was created ",          header->DATE);
-    fprintf(fits_file, "DATE-OBS =                    %s / YYYY-MM-DDThh:mm:ss observation start ",        header->DATE_OBS);
-    fprintf(fits_file, "XPIXSZ   =                    %.2f / X pixel size microns ",                         header->XPIXSZ);
-    fprintf(fits_file, "YPIXSZ   =                    %.2f / Y pixel size microns ",                         header->YPIXSZ);
-    fprintf(fits_file, "XBINNING =                    %d / Camera binning mode ",                          header->XBINNING);
-    fprintf(fits_file, "YBINNING =                    %d / Camera binning mode ",                          header->YBINNING);
-    fprintf(fits_file, "CCD-TEMP =                    %.2f / CCD temp in C ",                                header->CCD_TEMP);
-    fprintf(fits_file, "EXPTIME  =                    %.2f / Exposure time [s] ",                            header->EXPTIME);
-    fprintf(fits_file, "BAYERPAT =                    %s / Bayer color pattern ",                          header->BAYERPAT);
-    fprintf(fits_file, "XBAYROFF =                    %d / X offset of Bayer array ",                      header->XBAYROFF);
-    fprintf(fits_file, "YBAYROFF =                    %d / Y offset of Bayer array ",                      header->YBAYROFF);
-    fprintf(fits_file, "PROGRAM  =                    %s / Software that created this HDU ",               header->PROGRAM);
-    fprintf(fits_file, "END");
+    fprintf(fits_file, "SIMPLE = %37s / file conforms to FITS standard ", header->SIMPLE);
+    fprintf(fits_file, "BITPIX = %38d / number of bits per data pixel ",  header->BITPIX);
+    fprintf(fits_file, "NAXIS = %49d / number of data axes ", header->NAXIS);
+    fprintf(fits_file, "NAXIS1 = %46d / length of data axis 1 ", header->NAXIS1);
+    fprintf(fits_file, "NAXIS2 = %46d / length of data axis 2 ", header->NAXIS2);
+    fprintf(fits_file, "NAXIS3 = %46d / length of data axis 3 ", header->NAXIS3);
+    fprintf(fits_file, "EXTEND = %35s / FITS dataset contains extensions ", header->EXTEND);
+    fprintf(fits_file, "BZERO = %41f / offset data range to ushort ", header->BZERO);
+    fprintf(fits_file, "BSCALE = %45f / default scaling factor ", header->BSCALE);
+    fprintf(fits_file, "INSTRUME = %50s / instrument name ", header->INSTRUME);
+    fprintf(fits_file, "DATE = %39s / UTC date that file was created ", header->DATE);
+    fprintf(fits_file, "DATE-OBS = %36s / YYYY-MM-DDThh:mm:ss obs start ", header->DATE_OBS);
+    fprintf(fits_file, "XPIXSZ = %47f / X pixel size microns ", header->XPIXSZ);
+    fprintf(fits_file, "YPIXSZ = %47f / Y pixel size microns ", header->YPIXSZ);
+    fprintf(fits_file, "XBINNING = %46d / Camera binning mode ", header->XBINNING);
+    fprintf(fits_file, "YBINNING = %46d / Camera binning mode ", header->YBINNING);
+    fprintf(fits_file, "CCD-TEMP = %52f / CCD temp in C ", header->CCD_TEMP);
+    fprintf(fits_file, "EXPTIME = %49f / Exposure time [s] ", header->EXPTIME);
+    fprintf(fits_file, "BAYERPAT = %46s / Bayer color pattern ", header->BAYERPAT);
+    fprintf(fits_file, "XBAYROFF = %42d / X offset of Bayer array ", header->XBAYROFF);
+    fprintf(fits_file, "YBAYROFF = %42d / Y offset of Bayer array ", header->YBAYROFF);
+    fprintf(fits_file, "PROGRAM = %53s / Software used ", header->PROGRAM);
+    fprintf(fits_file, "END ");
 };
 
 void printHeader(Header* header) {
-    printf("SIMPLE  :    %s\n",      header->     SIMPLE  );
-    printf("BITPIX  :    %d\n",      header->     BITPIX  );
-    printf("NAXIS   :    %d\n",      header->     NAXIS   );
-    printf("NAXIS1  :    %d\n",      header->     NAXIS1  );
-    printf("NAXIS2  :    %d\n",      header->     NAXIS2  );
-    printf("NAXIS3  :    %d\n",      header->     NAXIS3  );
-    printf("EXTEND  :    %s\n",      header->     EXTEND  );
-    printf("BZERO   :    %.2f\n",     header->     BZERO   );
-    printf("BSCALE  :    %.2f\n",     header->     BSCALE  );
-    printf("INSTRUME:    %s\n",      header->     INSTRUME);
-    printf("DATE    :    %s\n",      header->     DATE    );
-    printf("DATE-OBS:    %s\n",      header->     DATE_OBS);
-    printf("XPIXSZ  :    %.2f\n",     header->     XPIXSZ  );
-    printf("YPIXSZ  :    %.2f\n",     header->     YPIXSZ  );
-    printf("XBINNING:    %d\n",      header->     XBINNING);
-    printf("YBINNING:    %d\n",      header->     YBINNING);
-    printf("CCD-TEMP:    %.2f\n",     header->     CCD_TEMP);
-    printf("EXPTIME :    %.2f\n",     header->     EXPTIME );
-    printf("BAYERPAT:    %s\n",      header->     BAYERPAT);
-    printf("XBAYROFF:    %d\n",      header->     XBAYROFF);
-    printf("YBAYROFF:    %d\n",      header->     YBAYROFF);
-    printf("PROGRAM :    %s\n",      header->     PROGRAM );
+    printf("SIMPLE  :  %s\n",      header->     SIMPLE  );
+    printf("BITPIX  :  %d\n",      header->     BITPIX  );
+    printf("NAXIS   :  %d\n",      header->     NAXIS   );
+    printf("NAXIS1  :  %d\n",      header->     NAXIS1  );
+    printf("NAXIS2  :  %d\n",      header->     NAXIS2  );
+    printf("NAXIS3  :  %d\n",      header->     NAXIS3  );
+    printf("EXTEND  :  %s\n",      header->     EXTEND  );
+    printf("BZERO   :  %.2f\n",     header->     BZERO   );
+    printf("BSCALE  :  %.2f\n",     header->     BSCALE  );
+    printf("INSTRUME:  %s\n",      header->     INSTRUME);
+    printf("DATE    :  %s\n",      header->     DATE    );
+    printf("DATE-OBS:  %s\n",      header->     DATE_OBS);
+    printf("XPIXSZ  :  %.2f\n",     header->     XPIXSZ  );
+    printf("YPIXSZ  :  %.2f\n",     header->     YPIXSZ  );
+    printf("XBINNING:  %d\n",      header->     XBINNING);
+    printf("YBINNING:  %d\n",      header->     YBINNING);
+    printf("CCD-TEMP:  %.2f\n",     header->     CCD_TEMP);
+    printf("EXPTIME :  %.2f\n",     header->     EXPTIME );
+    printf("BAYERPAT:  %s\n",      header->     BAYERPAT);
+    printf("XBAYROFF:  %d\n",      header->     XBAYROFF);
+    printf("YBAYROFF:  %d\n",      header->     YBAYROFF);
+    printf("PROGRAM :  %s\n",      header->     PROGRAM );
 };
 
 
 void injecter(Header* header, const char* KEYWORD, const char* value) {
     if (strcmp(KEYWORD, "SIMPLE") == 0) {
-        sscanf(value, "%s", header->SIMPLE);
+        strncpy(header->SIMPLE, value, strlen(value));
     }
 
     else if (strcmp(KEYWORD, "BITPIX") == 0) {
@@ -118,7 +118,7 @@ void injecter(Header* header, const char* KEYWORD, const char* value) {
     }
 
     else if (strcmp(KEYWORD, "EXTEND") == 0) {
-        sscanf(value, "%s", header->EXTEND);
+        strncpy(header->EXTEND, value, strlen(value));
     }
 
     else if (strcmp(KEYWORD, "BZERO") == 0) {
@@ -134,7 +134,7 @@ void injecter(Header* header, const char* KEYWORD, const char* value) {
     }
 
     else if (strcmp(KEYWORD, "DATE") == 0) {
-        sscanf(value, "%s", header->DATE);
+       strncpy(header->DATE, value, strlen(value));
     }
 
     else if (strcmp(KEYWORD, "DATE-OBS") == 0) {
