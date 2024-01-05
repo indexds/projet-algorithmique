@@ -4,9 +4,10 @@
 #include "./fits.h"
 
 int main(void){
-    //Header header;
+    Header header;
     FILE* file_1;
     FILE* file_2;
+    char file_path[256];
     int choix;
 
     while(1){
@@ -40,7 +41,11 @@ int main(void){
             case 0:
                 exit(EXIT_SUCCESS);
             case 1:
-                printf("Not Implemented.");
+                printf("PATH du fichier: ");
+                scanf("%s", file_path);
+                file_1 = fopen(file_path, "rb");
+                processHeader(file_1, &header);
+                printHeader(&header);
                 break;
             case 2:
                 printf("Not Implemented.");
