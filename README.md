@@ -18,4 +18,4 @@ Une fois compilé, le programme génère un main.exe. Toujours dans le même she
 # Utilisation
 
 
-Le programme permet de lire les arguments du header d'un fichier FITS donné, sommer deux images bit à bit, les soustraire, en faire la moyenne et les diviser. Il permet également de faire une conversion en fichier CSV, ou output une image PNG, toujours à partir d'un fichier FITS donné.
+Le programme permet de lire les arguments du header d'un fichier FITS donné, sommer deux images bit à bit, les soustraire, en faire la moyenne et les diviser. Il permet également de faire une conversion en fichier CSV toujours à partir d'un fichier FITS donné.
