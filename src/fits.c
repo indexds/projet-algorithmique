@@ -23,7 +23,6 @@ void sum_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
         return;
     };
     fprintFitsHeader(output_stream, &header1);
-    printHeader(&header1);
     fseek(file1, BLOCK_SIZE, SEEK_SET);
     fseek(file2, BLOCK_SIZE, SEEK_SET);
     fseek(output_stream, BLOCK_SIZE, SEEK_SET);

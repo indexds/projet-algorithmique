@@ -48,19 +48,19 @@ int main(void){
                 printHeader(&header);
                 break;
             case 2:
-                printf("Not Implemented.");
+                printf("Not Implemented (SUM).");
                 break;
             case 3:
-                printf("Not Implemented.");
+                printf("Not Implemented (AVG).");
                 break;
             case 4:
-                printf("Not Implemented.");
+                printf("Not Implemented (SUB).");
                 break;
             case 5:
-                printf("Not Implemented.");
+                printf("Not Implemented (DIV).");
                 break;
             case 6:
-                printf("Not Implemented.");
+                printf("Not Implemented (CSV).");
                 break;
             default:
                 printf("Nombre Invalide.\n");
