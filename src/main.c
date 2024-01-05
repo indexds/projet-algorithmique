@@ -18,7 +18,6 @@ int main(void){
             "(4) MOYENNE DES IMAGES\n"
             "(5) DIVISER DES IMAGES\n"
             "(6) CONVERTIR EN CSV\n"
-            "(7) CONVERTIR EN PNG\n"
             "-------------------------------------------\n"
         );
 
@@ -56,9 +55,6 @@ int main(void){
                 printf("Not Implemented.");
                 break;
             case 6:
-                printf("Not Implemented.");
-                break;
-            case 7:
                 printf("Not Implemented.");
                 break;
             default:
