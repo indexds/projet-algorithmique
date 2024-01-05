@@ -3,7 +3,6 @@
 #include <string.h>
 #include "./fits.h"
 #include "./header.h"
-#include "./binary.h"
 
 void sum_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
     Header header1;
