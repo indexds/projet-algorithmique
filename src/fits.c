@@ -29,10 +29,14 @@ void sum_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
 
     char buffer1[2];
     char buffer2[2];
-
+    char buffer3[2];
 
      while(fread(buffer1, 1, 2, file1) != 0 && fread(buffer2, 1, 2, file2) != 0){
-        fwrite(buffer1, 2, 1, output_stream);
+        //operation de sommation buffer3 = buffer2+buffer1 (gaffe overflow si FF+FF => FF)
+        buffer3[0] = (buffer1[0] + buffer2[0] > MAX_BYTE_VALUE)? MAX_BYTE_VALUE : buffer1[0]+buffer2[0];
+        buffer3[1] = (buffer1[1] + buffer2[1] > MAX_BYTE_VALUE)? MAX_BYTE_VALUE : buffer1[1]+buffer2[1];
+
+        fwrite(buffer3, 2, 1, output_stream);
     };
 };
 
