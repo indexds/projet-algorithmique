@@ -35,7 +35,7 @@ void fprintFitsHeader(FILE* fits_file, Header* header){
      fseek(fits_file, 0, SEEK_SET);
      char spaces[BLOCK_SIZE];
      for (int i = 0; i < BLOCK_SIZE; i++) {
-         spaces[i] = ' ';
+         spaces[i] = '\0';
      };
     fwrite(spaces, BLOCK_SIZE, 1, fits_file);
     fseek(fits_file, 0, SEEK_SET);

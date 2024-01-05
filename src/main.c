@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include "./header.h"
 #include "./fits.h"
+#include <string.h>
 
 int main(void){
     Header header;
     FILE* file_1;
     FILE* file_2;
+    FILE* output;
     char file_path[256];
     int choix;
 
@@ -29,7 +31,7 @@ int main(void){
             case 8: // TEST CASE
                 file_1 = fopen("../lights/r_lights_00004.fit", "rb");
                 file_2 = fopen("../lights/r_lights_00005.fit", "rb");
-                FILE* output = fopen("./output.fit", "wb");
+                output = fopen("./output.fit", "wb");
 
                 sum_fits_files(file_1, file_2, output);
 
@@ -60,7 +62,19 @@ int main(void){
                 printf("Not Implemented (DIV).");
                 break;
             case 6:
-                printf("Not Implemented (CSV).");
+                printf("PATH du fichier: ");
+                scanf("%s", file_path);
+
+                char output_file_name[256];
+                strcpy(output_file_name, "output_");
+                strncat(output_file_name, strrchr(file_path, '/') + 1, strrchr(file_path, '.') - (strrchr(file_path, '/') + 1));
+                strcat(output_file_name, ".csv");
+
+                file_1 = fopen(file_path, "rb");
+                output = fopen(output_file_name, "w");
+                convert_csv(file_1, output);
+                fclose(file_1);
+                fclose(output);
                 break;
             default:
                 printf("Nombre Invalide.\n");
