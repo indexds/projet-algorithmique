@@ -1,6 +1,8 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
 
+#define BLOCK_SIZE 2880
+
 typedef struct Header{
     char SIMPLE[128];
     int BITPIX;

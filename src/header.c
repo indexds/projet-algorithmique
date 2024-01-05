@@ -3,7 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 #include "./header.h"
-#include "./fits.h"
 
 
 const char* header_names[] = {
