@@ -56,6 +56,9 @@ void div_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
 };
 
 void convert_csv(FILE* file, FILE* output_stream){
-    (void)file;
-    (void)output_stream;
+    int byte;
+    fseek(file, BLOCK_SIZE, SEEK_SET);
+    while ((byte = fgetc(file)) != EOF) {
+        fprintf(output_stream, "%02X;", byte);
+    };
 };
