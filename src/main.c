@@ -29,32 +29,6 @@ int main(void){
         getchar();
 
         switch(choix){
-            case 8: // TEST CASE
-                file1 = fopen("../lights/r_lights_00001.fit", "rb");
-                file2 = fopen("../lights/r_lights_00002.fit", "rb");
-                FILE* file3 = fopen("../lights/r_lights_00003.fit", "rb");
-                FILE* file4 = fopen("../lights/r_lights_00004.fit", "rb");
-                FILE* file5 = fopen("../lights/r_lights_00005.fit", "rb");
-                FILE* file6 = fopen("../lights/r_lights_00010.fit", "rb");
-                FILE* file7 = fopen("../lights/r_lights_00011.fit", "rb");
-                FILE* file8 = fopen("../lights/r_lights_00012.fit", "rb");
-                FILE* file9 = fopen("../lights/r_lights_00013.fit", "rb");
-                output = fopen("./output_avg.fit", "wb");
-                FILE* file_tab[10] = {file1,file2,file3,file4,file5,file6,file7,file8,file9};
-                printf("Creation du fichier sortant..\n");
-                avg_fits_files(file_tab, output);
-                fclose(file1);
-                fclose(file2);
-                fclose(file3);
-                fclose(file4);
-                fclose(file5);
-                fclose(file6);
-                fclose(file7);
-                fclose(file8);
-                fclose(file9);
-                fclose(output);
-                break;
-
             case 0:
                 exit(EXIT_SUCCESS);
 
@@ -139,7 +113,35 @@ int main(void){
 
 
             case 4:
-                printf("Not Implemented. (AVG)");
+                int file_number;
+                char current_file[256];
+                do{
+                    printf("Saisir le nombre de fichier : \n");
+                    scanf("%d",&file_number);
+                }
+                while(file_number <= 0);
+
+                FILE** file_tab = malloc(sizeof(FILE*)*file_number);
+
+                for(int i = 0; i < file_number; i++){
+                    do{
+                        printf("Rentrer le fichier %d: ", i);
+                        scanf("%s", current_file);
+                        file_tab[i] = fopen(current_file, "rb");
+                    }
+                    while(file_tab[i] == NULL);
+
+                };
+                output = fopen("./output_avg.fit", "wb");
+                printf("Creation du fichier sortant..\n");
+
+                avg_fits_files(file_tab, output);
+
+                for(int i = 0; i < file_number; i++){
+                    fclose(file_tab[i]);
+                };
+                free(file_tab);
+                fclose(output);
                 break;
 
 
