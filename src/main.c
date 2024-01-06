@@ -10,6 +10,7 @@ int main(void){
     FILE* file2;
     FILE* output;
     char file_path[256];
+    char output_file_name[256];
     int choix;
 
     while(1){
@@ -138,7 +139,6 @@ int main(void){
 
 
             case 6:
-                char output_file_name[256];
                 printf("PATH du fichier: ");
                 scanf("%s", file_path);
 
