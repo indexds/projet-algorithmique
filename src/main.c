@@ -31,26 +31,26 @@ int main(void){
             case 8: // TEST CASE
                 file1 = fopen("../lights/r_lights_00001.fit", "rb");
                 file2 = fopen("../lights/r_lights_00002.fit", "rb");
-                FILE* file_3 = fopen("../lights/r_lights_00003.fit", "rb");
-                FILE* file_4 = fopen("../lights/r_lights_00004.fit", "rb");
-                FILE* file_5 = fopen("../lights/r_lights_00005.fit", "rb");
-                FILE* file_6 = fopen("../lights/r_lights_00010.fit", "rb");
-                FILE* file_7 = fopen("../lights/r_lights_00011.fit", "rb");
-                FILE* file_8 = fopen("../lights/r_lights_00012.fit", "rb");
-                FILE* file_9 = fopen("../lights/r_lights_00013.fit", "rb");
+                FILE* file3 = fopen("../lights/r_lights_00003.fit", "rb");
+                FILE* file4 = fopen("../lights/r_lights_00004.fit", "rb");
+                FILE* file5 = fopen("../lights/r_lights_00005.fit", "rb");
+                FILE* file6 = fopen("../lights/r_lights_00010.fit", "rb");
+                FILE* file7 = fopen("../lights/r_lights_00011.fit", "rb");
+                FILE* file8 = fopen("../lights/r_lights_00012.fit", "rb");
+                FILE* file9 = fopen("../lights/r_lights_00013.fit", "rb");
                 output = fopen("./output_avg.fit", "wb");
                 FILE* file_tab[10] = {file1,file2,file_3,file_4,file_5,file_6,file_7,file_8,file_9};
                 printf("Creation du fichier sortant..\n");
                 avg_fits_files(file_tab, output);
                 fclose(file1);
                 fclose(file2);
-                fclose(file_3);
-                fclose(file_4);
-                fclose(file_5);
-                fclose(file_6);
-                fclose(file_7);
-                fclose(file_8);
-                fclose(file_9);
+                fclose(file3);
+                fclose(file4);
+                fclose(file5);
+                fclose(file6);
+                fclose(file7);
+                fclose(file8);
+                fclose(file9);
                 fclose(output);
                 break;
 
@@ -62,7 +62,7 @@ int main(void){
                 printf("PATH du fichier: ");
                 scanf("%s", file_path);
                 file1 = fopen(file_path, "rb");
-                
+
                 printf("-------------------------------------------\n");
                 processHeader(file1, &header);
                 printHeader(&header);
