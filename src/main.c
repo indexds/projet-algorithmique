@@ -39,7 +39,7 @@ int main(void){
                 FILE* file8 = fopen("../lights/r_lights_00012.fit", "rb");
                 FILE* file9 = fopen("../lights/r_lights_00013.fit", "rb");
                 output = fopen("./output_avg.fit", "wb");
-                FILE* file_tab[10] = {file1,file2,file_3,file_4,file_5,file_6,file_7,file_8,file_9};
+                FILE* file_tab[10] = {file1,file2,file3,file4,file5,file6,file7,file8,file9};
                 printf("Creation du fichier sortant..\n");
                 avg_fits_files(file_tab, output);
                 fclose(file1);
