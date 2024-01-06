@@ -41,19 +41,24 @@ int isCompatible(FILE* file1, FILE* file2, FILE* output_stream){
 
 
 void sum_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
-    if(isCompatible(file1, file2, output_stream) == 1){
+    if (isCompatible(file1, file2, output_stream) == 1) {
         return;
-    };
+    }
 
-    char buffer1[2];
-    char buffer2[2];
-    char buffer3[2];
+    unsigned char buffer1;
+    unsigned char buffer2;
+    unsigned char buffer3;
 
-     while(fread(buffer1, 1, 2, file1) != 0 && fread(buffer2, 1, 2, file2) != 0){
+    while (fread(&buffer1, 1, 1, file1) != 0 && fread(&buffer2, 1, 1, file2) != 0) {
 
-        buffer3[0] = (buffer1[0] + buffer2[0] > MAX_BYTE_VALUE)? MAX_BYTE_VALUE : buffer1[0]+buffer2[0];
-        buffer3[1] = (buffer1[1] + buffer2[1] > MAX_BYTE_VALUE)? MAX_BYTE_VALUE : buffer1[1]+buffer2[1];
-        fwrite(buffer3, 2, 1, output_stream);
+        if ((int)buffer1 + (int)buffer2 > 500) {
+            buffer3 = buffer1 + buffer2;
+            printf("%d;", (int)buffer1 + (int)buffer2);
+        } else {
+            buffer3 = buffer1 + buffer2;
+        }
+
+        fwrite(&buffer3, 1, 1, output_stream);
     };
 };
 
@@ -63,37 +68,26 @@ void sub_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
         return;
     };
 
-    char buffer1[2];
-    char buffer2[2];
-    char buffer3[2];
+    //WRITE LOGIC HERE
 
-     while(fread(buffer1, 1, 2, file1) != 0 && fread(buffer2, 1, 2, file2) != 0){
-
-        buffer3[0] = (buffer1[0] - buffer2[0] > MAX_BYTE_VALUE)? MAX_BYTE_VALUE : buffer1[0]-buffer2[0];
-        buffer3[1] = (buffer1[1] - buffer2[1] > MAX_BYTE_VALUE)? MAX_BYTE_VALUE : buffer1[1]-buffer2[1];
-        fwrite(buffer3, 2, 1, output_stream);
-    };
 };
 
 
 void avg_fits_files(FILE* file_tab[], FILE* output_stream) {
-    //cette ligne fait capoter toute la fonction , il retourne n=1 pour je ne sais quelle raison
     int n = count_files(file_tab);
-    printf("Taille du tableau de fichier %d \n ",n);
-    //on somme toutes les images
+
     FILE* buffer =file_tab[0];
     for (int i= 1 ; i < n ; i++){
         sum_fits_files(buffer,file_tab[i], output_stream);
-        printf("Images sommées \n ");
         buffer=output_stream;
-    }
-    printf("Images sommées à la fin \n ");
+    };
+
     fseek(output_stream, BLOCK_SIZE, SEEK_SET);
 
     char buffer3[2];
 
      while(fread(buffer3, 1, 2, output_stream) != 0){
-        //operation de sommation buffer3 = buffer2+buffer1 (gaffe overflow si FF+FF => FF)
+
         buffer3[0] = (buffer3[0]/n > MAX_BYTE_VALUE)? MAX_BYTE_VALUE : buffer3[0]/n;
         buffer3[1] = (buffer3[1]/n > MAX_BYTE_VALUE)? MAX_BYTE_VALUE : buffer3[1]/n;
         fwrite(buffer3, 2, 1, output_stream);
@@ -111,7 +105,7 @@ void div_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
     char buffer3[2];
 
      while(fread(buffer1, 1, 2, file1) != 0 && fread(buffer2, 1, 2, file2) != 0){
-        //operation de sommation buffer3 = buffer2+buffer1 (gaffe overflow si FF+FF => FF)
+
         double result1 = (buffer2[0] != 0) ? (double)buffer1[0] / (double)buffer2[0] : 0;
         double result2 = (buffer2[1] != 0) ? (double)buffer1[1] / (double)buffer2[1] : 0;
 

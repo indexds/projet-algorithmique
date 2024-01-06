@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "./header.h"
 #include "./fits.h"
-#include <string.h>
 
 int main(void){
     Header header;
@@ -84,7 +84,7 @@ int main(void){
                 output = fopen("./output_sum.fit", "wb");
                 printf("Creation du fichier sortant..\n");
                 sum_fits_files(file1,file2,output);
-                printf("Termine.");
+                printf("Termine.\n");
 
                 fclose(file1);
                 fclose(file2);
@@ -105,7 +105,7 @@ int main(void){
                 output = fopen("./output_sub.fit", "wb");
                 printf("Creation du fichier sortant..\n");
                 sub_fits_files(file1,file2,output);
-                printf("Termine.");
+                printf("Termine.\n");
 
                 fclose(file1);
                 fclose(file2);
@@ -130,7 +130,7 @@ int main(void){
                 output = fopen("./output_div.fit", "wb");
                 printf("Creation du fichier sortant..\n");
                 div_fits_files(file1,file2,output);
-                printf("Termine.");
+                printf("Termine.\n");
 
                 fclose(file1);
                 fclose(file2);
@@ -149,7 +149,7 @@ int main(void){
                 printf("Creation du fichier sortant..\n");
                 output = fopen(output_file_name, "w");
                 convert_csv(file1, output);
-                printf("Termine.");
+                printf("Termine.\n");
 
                 fclose(file1);
                 fclose(output);

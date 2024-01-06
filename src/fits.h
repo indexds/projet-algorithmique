@@ -1,7 +1,7 @@
 #ifndef FITS_FILE
 #define FITS_FILE
 
-#define MAX_BYTE_VALUE 11111111
+#define MAX_BYTE_VALUE 0b11111111
 
 int count_files(FILE* files[]);
 int isCompatible(FILE* file1, FILE* file2, FILE* output_stream);
