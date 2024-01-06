@@ -51,12 +51,12 @@ void sum_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
 
     while (fread(&buffer1, 1, 1, file1) != 0 && fread(&buffer2, 1, 1, file2) != 0) {
 
-        if ((int)buffer1 + (int)buffer2 > 500) {
-            buffer3 = buffer1 + buffer2;
-            printf("%d;", (int)buffer1 + (int)buffer2);
-        } else {
-            buffer3 = buffer1 + buffer2;
+        if ((int)buffer1 + (int)buffer2 > 400) {
+            buffer3 = 255;
         }
+        else {
+            buffer3 = buffer1 + buffer2;
+        };
 
         fwrite(&buffer3, 1, 1, output_stream);
     };
@@ -68,7 +68,21 @@ void sub_fits_files(FILE* file1, FILE* file2, FILE* output_stream) {
         return;
     };
 
-    //WRITE LOGIC HERE
+    unsigned char buffer1;
+    unsigned char buffer2;
+    unsigned char buffer3;
+
+    while (fread(&buffer1, 1, 1, file1) != 0 && fread(&buffer2, 1, 1, file2) != 0) {
+
+        if ((int)buffer1 - (int)buffer2 < 0) {
+            buffer3 = buffer1 - buffer2;
+        }
+        else {
+            buffer3 = buffer1 - buffer2;
+        };
+
+        fwrite(&buffer3, 1, 1, output_stream);
+    };
 
 };
 

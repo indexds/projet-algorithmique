@@ -60,9 +60,14 @@ int main(void){
 
 
             case 1:
-                printf("PATH du fichier: ");
-                scanf("%s", file_path);
-                file1 = fopen(file_path, "rb");
+                do {
+                    printf("PATH du fichier: ");
+                    scanf("%s", file_path);
+                    file1 = fopen(file_path, "rb");
+                    if (file1 == NULL) {
+                        printf("PATH invalide, reessayer.\n");
+                    }
+                } while (file1 == NULL);
 
                 printf("-------------------------------------------\n");
                 processHeader(file1, &header);
@@ -73,13 +78,23 @@ int main(void){
 
 
             case 2:
-                printf("PATH du fichier 1: ");
-                scanf("%s", file_path);
-                file1 = fopen(file_path, "rb");
+                do {
+                    printf("PATH du fichier 1: ");
+                    scanf("%s", file_path);
+                    file1 = fopen(file_path, "rb");
+                    if (file1 == NULL) {
+                        printf("PATH invalide, reessayer.\n");
+                    }
+                } while (file1 == NULL);
 
-                printf("PATH du fichier 2: ");
-                scanf("%s", file_path);
-                file2 = fopen(file_path, "rb");
+                do {
+                    printf("PATH du fichier 2: ");
+                    scanf("%s", file_path);
+                    file2 = fopen(file_path, "rb");
+                    if (file2 == NULL) {
+                        printf("PATH invalide, reessayer.\n");
+                    }
+                } while (file2 == NULL);
 
                 output = fopen("./output_sum.fit", "wb");
                 printf("Creation du fichier sortant..\n");
@@ -93,13 +108,23 @@ int main(void){
 
 
             case 3:
-                printf("PATH du fichier: ");
-                scanf("%s", file_path);
-                file1 = fopen(file_path, "rb");
+                do {
+                    printf("PATH du fichier 1: ");
+                    scanf("%s", file_path);
+                    file1 = fopen(file_path, "rb");
+                    if (file1 == NULL) {
+                        printf("PATH invalide, reessayer.\n");
+                    }
+                } while (file1 == NULL);
 
-                printf("PATH du fichier: ");
-                scanf("%s", file_path);
-                file2 = fopen(file_path, "rb");
+                do {
+                    printf("PATH du fichier 2: ");
+                    scanf("%s", file_path);
+                    file2 = fopen(file_path, "rb");
+                    if (file2 == NULL) {
+                        printf("PATH invalide, reessayer.\n");
+                    }
+                } while (file2 == NULL);
 
 
                 output = fopen("./output_sub.fit", "wb");
@@ -119,13 +144,23 @@ int main(void){
 
 
             case 5:
-                printf("PATH du fichier: ");
-                scanf("%s", file_path);
-                file1 = fopen(file_path, "rb");
+                do {
+                    printf("PATH du fichier 1: ");
+                    scanf("%s", file_path);
+                    file1 = fopen(file_path, "rb");
+                    if (file1 == NULL) {
+                        printf("PATH invalide, reessayer.\n");
+                    }
+                } while (file1 == NULL);
 
-                printf("PATH du fichier: ");
-                scanf("%s", file_path);
-                file2 = fopen(file_path, "rb");
+                do {
+                    printf("PATH du fichier 2: ");
+                    scanf("%s", file_path);
+                    file2 = fopen(file_path, "rb");
+                    if (file2 == NULL) {
+                        printf("PATH invalide, reessayer.\n");
+                    }
+                } while (file2 == NULL);
 
                 output = fopen("./output_div.fit", "wb");
                 printf("Creation du fichier sortant..\n");
@@ -139,8 +174,14 @@ int main(void){
 
 
             case 6:
-                printf("PATH du fichier: ");
-                scanf("%s", file_path);
+                do {
+                    printf("PATH du fichier: ");
+                    scanf("%s", file_path);
+                    file1 = fopen(file_path, "rb");
+                    if (file1 == NULL) {
+                        printf("PATH invalide, reessayer.\n");
+                    }
+                } while (file1 == NULL);
 
                 strncat(output_file_name, strrchr(file_path, '/') + 1, strrchr(file_path, '.') - (strrchr(file_path, '/') + 1));
                 strcat(output_file_name, ".csv");
