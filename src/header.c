@@ -196,6 +196,7 @@ void processHeader(FILE* file, Header* header) {
     memset(header->BAYERPAT, '\0', 128);
     memset(header->PROGRAM, '\0', 128);
 
+    fseek(file, 0, SEEK_SET);
     fread(raw_header, BLOCK_SIZE-750, 1, file);
     // Maintenant on regarde pour chaque element de header_names ce qu'il y a entre "=" et "/" => la valeur
     for (size_t i = 0; i < sizeof(header_names) / sizeof(header_names[0]); i++) {

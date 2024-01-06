@@ -22,6 +22,7 @@ int main(void){
             "(4) MOYENNE DES IMAGES\n"
             "(5) DIVISER DES IMAGES\n"
             "(6) CONVERTIR EN CSV\n"
+            "(7) GENERATION DE L'IMAGE GLOBALE\n"
             "-------------------------------------------\n"
         );
 
@@ -116,17 +117,17 @@ int main(void){
                 int file_number;
                 char current_file[256];
                 do{
-                    printf("Saisir le nombre de fichier : \n");
-                    scanf("%d",&file_number);
+                    printf("Saisir le nombre de fichiers: ");
+                    scanf("%d", &file_number);
                 }
                 while(file_number <= 0);
 
-                FILE** file_tab = malloc(sizeof(FILE*)*file_number);
+                FILE** file_tab = calloc(file_number, sizeof(FILE*));
 
                 for(int i = 0; i < file_number; i++){
                     do{
-                        printf("Rentrer le fichier %d: ", i);
-                        scanf("%s", current_file);
+                        printf("Rentrer le fichier %d: ", i+1);
+                        scanf("%255s", current_file);
                         file_tab[i] = fopen(current_file, "rb");
                     }
                     while(file_tab[i] == NULL);
@@ -196,6 +197,16 @@ int main(void){
 
                 fclose(file1);
                 fclose(output);
+                break;
+
+            case 7:
+                printf("Generation du master_dark..\n");
+                generateMaster("../darks", "../darks/master_dark.fit");
+                printf("Generation du master_flat..\n");
+                generateMaster("../flats", "../flats/master_flat.fit");
+                printf("Generation du master_offset..\n");
+                generateMaster("../offsets", "../offsets/master_offset.fit");
+
                 break;
 
 
