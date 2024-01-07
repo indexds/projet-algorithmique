@@ -220,8 +220,8 @@ void processHeader(FILE* file, Header* header) {
             value_length--;
         };
 
-        strncpy(value, value_start, value_length); // on met dans value le str du = jusqu'au /
-        value[value_length] = '\0'; //on rajoute le null terminator à la fin de value
+        strncpy(value, value_start, value_length);
+        value[value_length] = '\0';
 
         injecter(header, header_names[i], value);
 
