@@ -21,8 +21,8 @@ Le programme permet de lire les arguments du header d'un fichier FITS donné, so
 
 Le programme nécessite les dossiers ```/darks```, ```/flats```, ```/lights```, ```/lights_post```, ```/offsets```.
 
-```lights_post``` contiendra les fichiers traités, et doit donc être laissé vide.
-```/darks``` contiendra les darks, qui seront traités en un ```master_dark.fit```.
-```/flats``` contiendra les offsets, qui seront traités en un ```master_flat.fit```.
-```/offsets``` contiendra les offsets, qui seront traités en un ```master_offset.fit```.
-```/lights``` contiendra les lights, qui serviront aux différentes opérations.
+```lights_post``` contiendra les fichiers traités, et doit donc être laissé vide.<br>
+```/darks``` contiendra les darks, qui seront traités en un ```master_dark.fit```.<br>
+```/flats``` contiendra les offsets, qui seront traités en un ```master_flat.fit```.<br>
+```/offsets``` contiendra les offsets, qui seront traités en un ```master_offset.fit```.<br>
+```/lights``` contiendra les lights, qui serviront aux différentes opérations.<br>
