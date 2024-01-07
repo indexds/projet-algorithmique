@@ -10,6 +10,9 @@
 
 int count_files(FILE* files[]) {
     int count = 0;
+    if(files[9] == NULL){
+        printf("bite");
+    }
     while (files[count] != NULL) {
         count++;
     }
@@ -86,12 +89,10 @@ void avg_fits_files(FILE* file_tab[], FILE* output_stream) {
     FILE* buffer_file = fopen("buffer_file.fit", "w+b");
 
     for(int i = 1; i < n; i ++){
-
+        printf("[%d/%d]\n", i, n-1);
         sum_fits_files(temp, file_tab[i], buffer_file);
-
         temp = buffer_file;
     };
-
     processHeader(buffer_file, &header);
     fprintFitsHeader(output_stream, &header);
 
@@ -159,7 +160,6 @@ void generateMaster(char* directory, char* filename){
         };
     rewinddir(dir);
 
-
     if(file_count == 1){
 
         snprintf(file_path, sizeof(file_path), "%s/%s", directory, first_entry);
@@ -188,6 +188,15 @@ void generateMaster(char* directory, char* filename){
         };
     };
 
+    for(int s = 0; s < file_count; s++){
+        if(file_tab[s] == NULL){
+            printf("null\n");
+        }
+        else{
+            printf("non null\n");
+        };
+    };
+
     output = fopen(filename, "wb");
 
     avg_fits_files(file_tab, output);
@@ -199,4 +208,58 @@ void generateMaster(char* directory, char* filename){
     fclose(output);
     closedir(dir);
 
+};
+
+void generatePretraite(FILE* master_dark, FILE* master_flat, FILE* master_offset){
+    // (lights[i]- master_dark)/ (master_flat - master_offset)
+    struct dirent* entry;
+    DIR* directory = opendir("../lights");
+    FILE* output;
+    int file_count = 0;
+    char file_path[256];
+    char output_name[256];
+
+
+    while((entry = readdir(directory)) != NULL){
+        if(strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0){
+                file_count++;
+            };
+        };
+    rewinddir(directory);
+
+    FILE** lights = calloc(file_count, sizeof(FILE*));
+
+    int i = 0;
+    while((entry = readdir(directory)) != NULL){
+        if(strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0){
+            snprintf(file_path, sizeof(file_path), "../lights/%s", entry->d_name);
+            lights[i] = fopen(file_path, "rb");
+            i++;
+        };
+    };
+
+    FILE* soustraction_numerateur = fopen("soustraction_numerateur.fit", "w+b");
+    FILE* soustraction_denominateur = fopen("soustraction_denominateur.fit", "w+b");
+
+    for(int t = 0; t < file_count; t++){
+        snprintf(output_name, sizeof(output_name), "../lights_post/light_post_traitement_%d.fit", t);
+        output = fopen(output_name, "wb");
+        printf("[%d/%d] \n", t+1, file_count);
+
+        sub_fits_files(lights[t], master_dark, soustraction_numerateur);
+        sub_fits_files(master_flat, master_offset, soustraction_denominateur);
+        div_fits_files(soustraction_numerateur, soustraction_denominateur, output);
+    };
+
+    for(int j = 0; j < file_count; j++){
+        fclose(lights[j]);
+    };
+
+    fclose(soustraction_numerateur);
+    fclose(soustraction_denominateur);
+    free(lights);
+    closedir(directory);
+    fclose(output);
+    remove("./soustraction_denominateur.fit");
+    remove("./soustraction_numerateur.fit");
 };
