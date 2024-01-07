@@ -9,8 +9,11 @@ int main(void){
     FILE* file1;
     FILE* file2;
     FILE* output;
-    char file_path[256];
-    char output_file_name[256];
+    char* file_path = malloc(sizeof(char)*256);
+    memset(file_path, '\0', 256);
+    char* output_file_name = malloc(sizeof(char)*256);
+    memset(output_file_name, '\0', 256);
+
     int choix;
 
     while(1){
@@ -31,6 +34,8 @@ int main(void){
 
         switch(choix){
             case 0:
+                free(file_path);
+                free(output_file_name);
                 exit(EXIT_SUCCESS);
 
 
@@ -122,7 +127,7 @@ int main(void){
                 }
                 while(file_number <= 0);
 
-                FILE** file_tab = calloc(file_number, sizeof(FILE*));
+                FILE** file_tab = calloc(file_number + 1, sizeof(FILE*));
 
                 for(int i = 0; i < file_number; i++){
                     do{
@@ -200,23 +205,23 @@ int main(void){
                 break;
 
             case 7:
-                // printf("Generation du master_dark..\n");
-                // generateMaster("../darks", "../darks/master_dark.fit");
-                // printf("Generation du master_flat..\n");
-                // generateMaster("../flats", "../flats/master_flat.fit");
-                // printf("Generation du master_offset..\n");
-                // generateMaster("../offsets", "../offsets/master_offset.fit");
+                printf("Generation du master_dark..\n");
+                generateMaster("../darks", "../darks/master_dark.fit");
+                printf("Generation du master_flat..\n");
+                generateMaster("../flats", "../flats/master_flat.fit");
+                printf("Generation du master_offset..\n");
+                generateMaster("../offsets", "../offsets/master_offset.fit");
 
-                // printf("Pretraitement en cours..\n");
+                printf("Pretraitement en cours..\n");
 
-                // FILE* master_dark = fopen("../darks/master_dark.fit", "rb");
-                // FILE* master_flat = fopen("../flats/master_flat.fit", "rb");
-                // FILE* master_offset = fopen("../offsets/master_offset.fit", "rb");
-                // generatePretraite(master_dark, master_flat, master_offset);
+                FILE* master_dark = fopen("../darks/master_dark.fit", "rb");
+                FILE* master_flat = fopen("../flats/master_flat.fit", "rb");
+                FILE* master_offset = fopen("../offsets/master_offset.fit", "rb");
+                generatePretraite(master_dark, master_flat, master_offset);
 
-                // fclose(master_dark);
-                // fclose(master_flat);
-                // fclose(master_offset);
+                fclose(master_dark);
+                fclose(master_flat);
+                fclose(master_offset);
                 printf("Generation du master_light_post..\n");
                 generateMaster("../lights_post", "../lights_post/master_light_post.fit");
                 break;
@@ -227,5 +232,6 @@ int main(void){
                 continue;
         };
     };
+
     return 0;
 };

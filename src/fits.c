@@ -10,9 +10,7 @@
 
 int count_files(FILE* files[]) {
     int count = 0;
-    if(files[9] == NULL){
-        printf("bite");
-    }
+
     while (files[count] != NULL) {
         count++;
     }
@@ -177,7 +175,7 @@ void generateMaster(char* directory, char* filename){
         return;
     };
 
-    FILE** file_tab = calloc(file_count, sizeof(FILE*));
+    FILE** file_tab = calloc(file_count + 1, sizeof(FILE*)); //+1 to get null terminator
 
     int i = 0;
     while((entry = readdir(dir)) != NULL){
@@ -185,15 +183,6 @@ void generateMaster(char* directory, char* filename){
             snprintf(file_path, sizeof(file_path), "%s/%s", directory, entry->d_name);
             file_tab[i] = fopen(file_path, "rb");
             i++;
-        };
-    };
-
-    for(int s = 0; s < file_count; s++){
-        if(file_tab[s] == NULL){
-            printf("null\n");
-        }
-        else{
-            printf("non null\n");
         };
     };
 
@@ -227,7 +216,7 @@ void generatePretraite(FILE* master_dark, FILE* master_flat, FILE* master_offset
         };
     rewinddir(directory);
 
-    FILE** lights = calloc(file_count, sizeof(FILE*));
+    FILE** lights = calloc(file_count + 1, sizeof(FILE*)); //+1 to get null terminator
 
     int i = 0;
     while((entry = readdir(directory)) != NULL){
