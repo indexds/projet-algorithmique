@@ -29,8 +29,12 @@ int main(void){
             "-------------------------------------------\n"
         );
 
-        scanf("%d", &choix);
-        getchar();
+        if (scanf("%d", &choix) != 1) {
+            printf("Input invalide, reessayer.\n");
+            // clear stdin
+            while (getchar() != '\n');
+            continue;
+        };
 
         switch(choix){
             case 0:
