@@ -92,93 +92,79 @@ void printHeader(Header* header) {
 
 
 void injecter(Header* header, const char* KEYWORD, const char* value) {
-    if (strcmp(KEYWORD, "SIMPLE") == 0) {
-        strncpy(header->SIMPLE, value, strlen(value));
-    }
 
-    else if (strcmp(KEYWORD, "BITPIX") == 0) {
-        sscanf(value, "%d", &header->BITPIX);
-    }
-
-    else if (strcmp(KEYWORD, "NAXIS") == 0) {
-        sscanf(value, "%d", &header->NAXIS);
-    }
-
-    else if (strcmp(KEYWORD, "NAXIS1") == 0) {
-        sscanf(value, "%d", &header->NAXIS1);
-    }
-
-    else if (strcmp(KEYWORD, "NAXIS2") == 0) {
-        sscanf(value, "%d", &header->NAXIS2);
-    }
-
-    else if (strcmp(KEYWORD, "NAXIS3") == 0) {
-        sscanf(value, "%d", &header->NAXIS3);
-    }
-
-    else if (strcmp(KEYWORD, "EXTEND") == 0) {
-        strncpy(header->EXTEND, value, strlen(value));
-    }
-
-    else if (strcmp(KEYWORD, "BZERO") == 0) {
-        sscanf(value, "%f", &header->BZERO);
-    }
-
-    else if (strcmp(KEYWORD, "BSCALE") == 0) {
-        sscanf(value, "%f", &header->BSCALE);
-    }
-
-    else if (strcmp(KEYWORD, "INSTRUME") == 0) {
-        strncpy(header->INSTRUME, value, strlen(value));
-    }
-
-    else if (strcmp(KEYWORD, "DATE") == 0) {
-       strncpy(header->DATE, value, strlen(value));
-    }
-
-    else if (strcmp(KEYWORD, "DATE-OBS") == 0) {
-       strncpy(header->DATE_OBS, value, strlen(value));
-    }
-
-    else if (strcmp(KEYWORD, "XPIXSZ") == 0) {
-        sscanf(value, "%f", &header->XPIXSZ);
-    }
-
-    else if (strcmp(KEYWORD, "YPIXSZ") == 0) {
-        sscanf(value, "%f", &header->YPIXSZ);
-    }
-
-    else if (strcmp(KEYWORD, "XBINNING") == 0) {
-        sscanf(value, "%d", &header->XBINNING);
-    }
-
-    else if (strcmp(KEYWORD, "YBINNING") == 0) {
-        sscanf(value, "%d", &header->YBINNING);
-    }
-
-    else if (strcmp(KEYWORD, "CCD-TEMP") == 0) {
-        sscanf(value, "%f", &header->CCD_TEMP);
-    }
-
-    else if (strcmp(KEYWORD, "EXPTIME") == 0) {
-        sscanf(value, "%f", &header->EXPTIME);
-    }
-
-    else if (strcmp(KEYWORD, "BAYERPAT") == 0) {
-        strncpy(header->BAYERPAT, value, strlen(value));
-    }
-
-    else if (strcmp(KEYWORD, "XBAYROFF") == 0) {
-        sscanf(value, "%d", &header->XBAYROFF);
-    }
-
-    else if (strcmp(KEYWORD, "YBAYROFF") == 0) {
-        sscanf(value, "%d", &header->YBAYROFF);
-    }
-
-    else if (strcmp(KEYWORD, "PROGRAM") == 0) {
-        strncpy(header->PROGRAM, value, strlen(value));
-    }
+    for(size_t i = 0; i < sizeof(header_names)/sizeof(header_names[0]); i++){
+        if(strcmp(KEYWORD, header_names[i]) == 0){
+            switch(i){
+                case 0:
+                    strncpy(header->SIMPLE, value, strlen(value));
+                    break;
+                case 1:
+                    sscanf(value, "%d", &header->BITPIX);
+                    break;
+                case 2:
+                    sscanf(value, "%d", &header->NAXIS);
+                    break;
+                case 3:
+                    sscanf(value, "%d", &header->NAXIS1);
+                    break;
+                case 4:
+                    sscanf(value, "%d", &header->NAXIS2);
+                    break;
+                case 5:
+                    sscanf(value, "%d", &header->NAXIS3);
+                    break;
+                case 6:
+                    strncpy(header->EXTEND, value, strlen(value));
+                    break;
+                case 7:
+                    sscanf(value, "%f", &header->BZERO);
+                    break;
+                case 8:
+                    sscanf(value, "%f", &header->BSCALE);
+                    break;
+                case 9:
+                    strncpy(header->INSTRUME, value, strlen(value));
+                    break;
+                case 10:
+                    strncpy(header->DATE, value, strlen(value));
+                    break;
+                case 11:
+                    strncpy(header->DATE_OBS, value, strlen(value));
+                    break;
+                case 12:
+                    sscanf(value, "%f", &header->XPIXSZ);
+                    break;
+                case 13:
+                    sscanf(value, "%f", &header->YPIXSZ);
+                    break;
+                case 14:
+                    sscanf(value, "%d", &header->XBINNING);
+                    break;
+                case 15:
+                    sscanf(value, "%d", &header->YBINNING);
+                    break;
+                case 16:
+                    sscanf(value, "%f", &header->CCD_TEMP);
+                    break;
+                case 17:
+                    sscanf(value, "%f", &header->EXPTIME);
+                    break;
+                case 18:
+                    strncpy(header->BAYERPAT, value, strlen(value));
+                    break;
+                case 19:
+                    sscanf(value, "%d", &header->XBAYROFF);
+                    break;
+                case 20:
+                    sscanf(value, "%d", &header->YBAYROFF);
+                    break;
+                case 21:
+                    strncpy(header->PROGRAM, value, strlen(value));
+                    break;
+            };
+        };
+    };
 };
 
 
