@@ -36,7 +36,7 @@ int isCompatible(FILE* file1, FILE* file2, FILE* output_stream){
         printf("Image Formats are different, exiting.");
         return 1;
     };
-    fprintFitsHeader(output_stream, &header1);
+    fprintHeader(output_stream, &header1);
     fseek(file1, BLOCK_SIZE, SEEK_SET);
     fseek(file2, BLOCK_SIZE, SEEK_SET);
     fseek(output_stream, BLOCK_SIZE, SEEK_SET);
@@ -92,7 +92,7 @@ void avg_fits_files(FILE* file_tab[], FILE* output_stream) {
         temp = buffer_file;
     };
     processHeader(buffer_file, &header);
-    fprintFitsHeader(output_stream, &header);
+    fprintHeader(output_stream, &header);
 
 
     fseek(output_stream, BLOCK_SIZE, SEEK_SET);

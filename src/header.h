@@ -30,6 +30,6 @@ typedef struct Header{
 
 void printHeader(Header* header);
 void processHeader(FILE* file, Header* header);
-void fprintFitsHeader(FILE* fits_file, Header* header);
+void fprintHeader(FILE* fits_file, Header* header);
 
 #endif
