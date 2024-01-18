@@ -92,7 +92,6 @@ void printHeader(Header* header) {
 
 
 void inject(Header* header, const char* KEYWORD, const char* value) {
-
     for(size_t i = 0; i < sizeof(header_names)/sizeof(header_names[0]); i++){
         if(strcmp(KEYWORD, header_names[i]) == 0){
             switch(i){
@@ -173,7 +172,6 @@ void processHeader(FILE* file, Header* header) {
     memset(raw_header, '\0', BLOCK_SIZE*2);
     char value[128];
 
-
     memset(header->SIMPLE, '\0', 128);
     memset(header->EXTEND, '\0', 128);
     memset(header->INSTRUME, '\0', 128);
@@ -184,25 +182,26 @@ void processHeader(FILE* file, Header* header) {
 
     fseek(file, 0, SEEK_SET);
     fread(raw_header, BLOCK_SIZE, 1, file);
+
     // Maintenant on regarde pour chaque element de header_names ce qu'il y a entre "=" et "/" => la valeur
     for (size_t i = 0; i < sizeof(header_names) / sizeof(header_names[0]); i++) {
 
         char* found_adr = strstr(raw_header, header_names[i]); //renvoie l'adresse de la premiere instance de header_names[i] dans header
-        char* found_equal = strchr(found_adr, '=');
 
-        char* value_start = found_equal + 1; // début de la valeur => après le =
-        char* value_end = strchr(value_start, '/'); //on cherche l'adresse du premier / à partir du =
+        char* value_start = strchr(found_adr, '=') + 1; //ptr après egal
+        char* value_end = strchr(value_start, '/'); //ptr premier / après egal
+
         size_t value_length = value_end - value_start;
 
 
-        //On enleve les espaces avant le string
+        //On enleve les espaces avant la valeur
         while (isspace(*value_start)) {
             value_start++;
             value_length--;
         };
 
-        //On enleve les espaces apres le string
-        while (value_length > 0 && isspace(value_start[value_length - 1])) {
+        //On enleve les espaces apres la valeur
+        while (isspace(value_start[value_length - 1])) {
             value_length--;
         };
 
@@ -210,7 +209,6 @@ void processHeader(FILE* file, Header* header) {
         value[value_length] = '\0';
 
         inject(header, header_names[i], value);
-
 
     };
     free(raw_header);
