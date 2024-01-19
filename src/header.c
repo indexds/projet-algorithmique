@@ -32,11 +32,9 @@ const char* header_names[] = {
 
 void fprintHeader(FILE* fits_file, Header* header){
     // Fill beginning of file with spaces
-     fseek(fits_file, 0, SEEK_SET);
-     char spaces[BLOCK_SIZE];
-     for (int i = 0; i < BLOCK_SIZE; i++) {
-         spaces[i] = '\0';
-     };
+    fseek(fits_file, 0, SEEK_SET);
+    char* spaces = (char*)malloc(sizeof(char)*BLOCK_SIZE);
+    memset(spaces, '\0', BLOCK_SIZE);
     fwrite(spaces, BLOCK_SIZE, 1, fits_file);
     fseek(fits_file, 0, SEEK_SET);
 
